@@ -299,11 +299,13 @@ public struct FormatSumTextField: UIViewRepresentable {
         
         public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
             guard let formatter = formatter else { return true }
+            
             let result = formatter.formatInput(
-                currentText: textField.text ?? "",
+                currentText: (textField.text ?? "").replacingOccurrences(of: ",", with: "."),
                 range: range,
                 replacementString: string
             )
+            
             textField.text = result.formattedText
             textField.setCursorLocation(result.caretBeginOffset)
             self.unformattedText.wrappedValue = formatter.unformat(result.formattedText) ?? ""
