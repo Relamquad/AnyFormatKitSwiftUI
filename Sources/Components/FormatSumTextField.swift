@@ -303,7 +303,7 @@ public struct FormatSumTextField: UIViewRepresentable {
             let result = formatter.formatInput(
                 currentText: (textField.text ?? "").replacingOccurrences(of: ",", with: "."),
                 range: range,
-                replacementString: string
+                replacementString: string.replacingOccurrences(of: ",", with: ".")
             )
             
             textField.text = result.formattedText
