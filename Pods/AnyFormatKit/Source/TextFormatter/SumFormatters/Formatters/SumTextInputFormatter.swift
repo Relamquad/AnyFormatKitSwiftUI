@@ -24,10 +24,12 @@ open class SumTextInputFormatter: TextInputFormatter, TextFormatter, TextUnforma
     open var maximumDecimalCharacters: Int { textFormatter.maximumDecimalCharacters }
     open var prefix: String? { textFormatter.prefix }
     open var suffix: String? { textFormatter.suffix }
-    open var groupingSeparator: String { textFormatter.groupingSeparator }
+    open var groupingSeparator: String { customGroupedSeparator.isEmpty ? textFormatter.groupingSeparator : customGroupedSeparator }
     open var decimalSeparator: String { textFormatter.decimalSeparator }
     open var groupingSize: Int { textFormatter.groupingSize }
     open var numberFormatter: NumberFormatter { textFormatter.numberFormatter }
+    open var customGroupedSeparator: String = ""
+
     
     private let negativePrefix = "-"
     
@@ -49,14 +51,16 @@ open class SumTextInputFormatter: TextInputFormatter, TextFormatter, TextUnforma
         textFormatter = SumTextFormatter(numberFormatter: numberFormatter)
     }
     
-    public init(textPattern: String, patternSymbol: Character = "#") {
+    public init(textPattern: String, patternSymbol: Character = "#", customGroupedSeparator: String = "") {
         let formatter = SumTextFormatter(textPattern: textPattern, patternSymbol: patternSymbol)
         self.caretPositionCalculator = SumTextInputFormatterCaretPositionCalculator(
             decimalSeparator: formatter.decimalSeparator,
             suffix: formatter.suffix,
             prefix: formatter.prefix
         )
+        
         self.textFormatter = formatter
+        self.customGroupedSeparator = customGroupedSeparator
     }
     
     // MARK: - TextInputFormatter

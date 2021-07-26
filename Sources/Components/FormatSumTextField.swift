@@ -75,6 +75,17 @@ public struct FormatSumTextField: UIViewRepresentable {
         self.formatter = SumTextInputFormatter(numberFormatter: numberFormatter)
     }
     
+    public init(numberValue: Binding<NSNumber?>,
+                placeholder: String? = nil,
+                textPattern: String,
+                patternSymbol: Character = "#",
+                groupingSeparator: String
+    ) {
+        self._numberValue = numberValue
+        self.placeholder = placeholder
+        self.formatter = SumTextInputFormatter(textPattern: textPattern, patternSymbol: patternSymbol, customGroupedSeparator: groupingSeparator)
+    }
+    
     // MARK: - UIViewRepresentable
     
     public func makeUIView(context: Context) -> UIViewType {
@@ -273,6 +284,13 @@ public struct FormatSumTextField: UIViewRepresentable {
     
     public func onReturn(perform action: VoidAction?) -> Self {
         var view = self
+        view.onReturnHandler = action
+        return view
+    }
+    
+    public func separator(perform action: VoidAction?) -> Self {
+        var view = self
+        formatter
         view.onReturnHandler = action
         return view
     }
