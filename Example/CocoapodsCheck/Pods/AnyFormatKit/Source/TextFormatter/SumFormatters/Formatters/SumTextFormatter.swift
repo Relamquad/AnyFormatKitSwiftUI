@@ -48,13 +48,18 @@ open class SumTextFormatter: TextFormatter, TextUnformatter, TextNumberFormatter
         self.numberFormatter = numberFormatter
     }
     
-    public convenience init(textPattern: String, patternSymbol: Character = "#") {
+    public convenience init(textPattern: String, patternSymbol: Character = "#", groupingSeparator: String? = nil) {
         let formatParser = SumFormatParser()
         let result = formatParser.parse(format: textPattern, patternSymbol: patternSymbol)
         let numberFormatter = NumberFormatter()
         numberFormatter.positivePrefix = result.prefix
         numberFormatter.positiveSuffix = result.suffix
-        numberFormatter.groupingSeparator = result.groupingSeparator
+        if let groupingSeparator = groupingSeparator {
+            numberFormatter.groupingSeparator = ""
+        } else {
+            numberFormatter.groupingSeparator = result.groupingSeparator
+            
+        }
         numberFormatter.decimalSeparator = result.decimalSeparator
         numberFormatter.groupingSize = result.groupingSize
         numberFormatter.maximumFractionDigits = result.maximumFractionDigits
